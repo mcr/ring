@@ -112,3 +112,9 @@ impl core::fmt::Display for KeyRejected {
         f.write_str(self.0)
     }
 }
+
+impl PartialEq for KeyRejected {
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
