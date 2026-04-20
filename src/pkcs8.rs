@@ -53,11 +53,11 @@ pub(crate) struct Template {
 
 impl Template {
     #[inline]
-    fn alg_id_value(&self) -> untrusted::Input<'_> {
+    pub fn alg_id_value(&self) -> untrusted::Input<'_> {
         untrusted::Input::from(self.alg_id_value_())
     }
 
-    fn alg_id_value_(&self) -> &[u8] {
+    pub fn alg_id_value_(&self) -> &[u8] {
         &self.bytes[self.alg_id_range.start..self.alg_id_range.end]
     }
 
