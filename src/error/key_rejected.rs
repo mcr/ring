@@ -85,8 +85,14 @@ impl KeyRejected {
         Self("VersionNotSupported")
     }
 
+    // used when key does not match algorithm expected
     pub(crate) fn wrong_algorithm() -> Self {
         Self("WrongAlgorithm")
+    }
+
+    // used when loading a key file generically, but algorith/curve not known/supported.
+    pub(crate) fn unsupported_algorithm() -> Self {
+        Self("UnsupportedAlgorithm")
     }
 
     #[cfg(feature = "alloc")]
