@@ -267,7 +267,7 @@ pub use crate::ec::{
         signing::{
             ECDSA_P256_SHA256_ASN1_SIGNING, ECDSA_P256_SHA256_FIXED_SIGNING,
             ECDSA_P384_SHA384_ASN1_SIGNING, ECDSA_P384_SHA384_FIXED_SIGNING, EcdsaKeyPair,
-            EcdsaSigningAlgorithm,
+            EcdsaSigningAlgorithm, decode_possible_ecdsa
         },
         verification::{
             ECDSA_P256_SHA256_ASN1, ECDSA_P256_SHA256_FIXED, ECDSA_P256_SHA384_ASN1,

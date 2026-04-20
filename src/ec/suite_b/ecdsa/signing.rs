@@ -520,10 +520,50 @@ static EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE: pkcs8::Template = pkcs8::Template {
     private_key_index: 0x23,
 };
 
+/// This function returns a SigningAlgorithm that matches the pkcs8 template
+/// that might be found in a private key file, which decouples
+/// ring::GenericKeyPair::from_pkcs8()
+/// from having to know all the intimate details best kept here.
+///
+/// Unfortunately, this guess can not know if the key will be used for
+/// FIXED or ASN1 signing,
+/// and that might be worth adding as an input to this function.
+/// For now, it errs on the side of FIXED, since that is more useful
+/// for COSE CWT.
+///
+pub fn decode_possible_ecdsa(alg_id: untrusted::Input) -> Option<&'static EcdsaSigningAlgorithm> {
+    println!("alg_id {:02x?}\n    vs {:02x?}\n    or {:02x?}",
+             alg_id,
+             EC_PUBLIC_KEY_P256_PKCS8_V1_TEMPLATE.alg_id_value(),
+             EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE.alg_id_value());
+
+    if alg_id == EC_PUBLIC_KEY_P256_PKCS8_V1_TEMPLATE.alg_id_value() {
+        return Some(&ECDSA_P256_SHA256_FIXED_SIGNING);
+    } else if alg_id == EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE.alg_id_value() {
+        return Some(&ECDSA_P384_SHA384_FIXED_SIGNING);
+    } else {
+        return None;
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use crate::testutil as test;
     use crate::{rand, signature};
+    use super::*;
+
+    #[test]
+    fn check_prime256v1_test() {
+        assert_eq!(decode_possible_ecdsa(EC_PUBLIC_KEY_P256_PKCS8_V1_TEMPLATE.alg_id_value()),
+                   Some(&ECDSA_P256_SHA256_FIXED_SIGNING));
+    }
+
+    #[test]
+    fn check_prime384v1_test() {
+        assert_eq!(decode_possible_ecdsa(EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE.alg_id_value()),
+                   Some(&ECDSA_P384_SHA384_FIXED_SIGNING));
+    }
 
     #[test]
     fn signature_ecdsa_sign_fixed_test() {

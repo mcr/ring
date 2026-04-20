@@ -152,6 +152,7 @@ pub mod rand;
 pub mod rsa;
 
 pub mod signature;
+pub mod allkeys;
 
 #[cfg(test)]
 mod tests;
