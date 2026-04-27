@@ -23,6 +23,14 @@ impl KeyPair {
     }
 }
 
+// some new feature?
+impl std::fmt::Debug for KeyPair {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(),std::fmt::Error> {
+        write!(f, "EcKeyPair(hash)")?;
+        Ok(())
+    }
+}
+
 pub struct Seed {
     bytes: [u8; SEED_MAX_BYTES],
     curve: &'static Curve,
