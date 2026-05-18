@@ -1,5 +1,7 @@
 use super::{Curve, ELEM_MAX_BYTES, SEED_MAX_BYTES};
 use crate::{cpu, error, rand};
+use core::fmt;
+use core::result::Result;
 
 pub struct KeyPair {
     seed: Seed,
@@ -24,8 +26,8 @@ impl KeyPair {
 }
 
 // some new feature?
-impl std::fmt::Debug for KeyPair {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(),std::fmt::Error> {
+impl fmt::Debug for KeyPair {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         write!(f, "EcKeyPair(hash)")?;
         Ok(())
     }

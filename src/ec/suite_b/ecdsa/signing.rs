@@ -532,10 +532,11 @@ static EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE: pkcs8::Template = pkcs8::Template {
 /// for COSE CWT.
 ///
 pub fn decode_possible_ecdsa(alg_id: untrusted::Input) -> Option<&'static EcdsaSigningAlgorithm> {
-    println!("alg_id {:02x?}\n    vs {:02x?}\n    or {:02x?}",
-             alg_id,
-             EC_PUBLIC_KEY_P256_PKCS8_V1_TEMPLATE.alg_id_value(),
-             EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE.alg_id_value());
+    // needs std.
+    //println!("alg_id {:02x?}\n    vs {:02x?}\n    or {:02x?}",
+    //         alg_id,
+    //         EC_PUBLIC_KEY_P256_PKCS8_V1_TEMPLATE.alg_id_value(),
+    //         EC_PUBLIC_KEY_P384_PKCS8_V1_TEMPLATE.alg_id_value());
 
     if alg_id == EC_PUBLIC_KEY_P256_PKCS8_V1_TEMPLATE.alg_id_value() {
         return Some(&ECDSA_P256_SHA256_FIXED_SIGNING);
