@@ -247,3 +247,6 @@ default-members = [
     ".",
     "cavp"
 ]
+
+[patch.crates-io]
+untrusted = { path="/ssw/projects/pandora/UPSTREAM/untrusted/worktree/constant-eq" }
