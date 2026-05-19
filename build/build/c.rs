@@ -132,9 +132,9 @@ fn configure_cc(
 ) {
     // FIXME: On Windows AArch64 we currently must use Clang to compile C code.
     // clang-cl emulates the cl.exe command line, `$CFLAGS`, etc.
-    if target.os == WINDOWS && target.arch == AARCH64 {
-        let _: &_ = c.prefer_clang_cl_over_msvc(true);
-    };
+    //if target.os == WINDOWS && target.arch == AARCH64 {
+    //        let _: &_ = c.prefer_clang_cl_over_msvc(true);
+    //};
     let compiler = c.get_compiler();
 
     let _ = c.include(c_root_dir.join("include"));
