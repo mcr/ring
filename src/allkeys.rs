@@ -1,10 +1,8 @@
-#[cfg(feature = "std")]
-extern crate std;
-
 use crate::{ec, rsa, signature::EcdsaKeyPair, error, io::der};
 use crate::rand;
 use crate::signature::{self, EcdsaSigningAlgorithm};
 use untrusted;
+use pem;
 
 #[derive(Debug)]
 pub enum GenericKeyPair {
@@ -14,6 +12,13 @@ pub enum GenericKeyPair {
 }
 
 impl GenericKeyPair {
+    /// Constructs a generic KeyPair from a PEM encoded PKCS8 file
+    ///
+    pub fn from_pkcs8_pem(pem: &[u8]) -> Result<Self, error::KeyRejected> {
+        let pemthing = pem::parse(pem).unwrap();
+        return Self::from_pkcs8(pemthing.contents())
+    }
+
     /// Constructs a generic KeyPair from a PKCS8 file.
     ///
     /// This method does not care what kind of private key it is, and
@@ -46,9 +51,6 @@ impl GenericKeyPair {
         } else {
             return Err(error::KeyRejected::unsupported_algorithm());
         };
-
-        //todo!("from pkcs8");
-
     }
 
     /// Sign a message using a generic KeyPair.
@@ -77,6 +79,15 @@ mod tests {
         const PRIVATE_KEY: &[u8] = include_bytes!("../tests/ecdsa_test_private_key_p256.p8");
 
         let pk = <GenericKeyPair>::from_pkcs8(PRIVATE_KEY);
+
+        assert!(pk.is_ok());
+    }
+
+    #[test]
+    fn test_load_pem_ec_key() {
+        const PRIVATE_PEM: &[u8] = include_bytes!("../tests/ecdsa_test_private_key_p256.pem");
+
+        let pk = <GenericKeyPair>::from_pkcs8_pem(PRIVATE_PEM);
 
         assert!(pk.is_ok());
     }
