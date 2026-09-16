@@ -167,6 +167,8 @@ getrandom = { version = "0.4.2" }
 
 untrusted = { version = "0.9", features = ["eq"] }
 
+pem        = "*"
+
 [target.'cfg(all(any(all(target_arch = "aarch64", target_endian = "little"), all(target_arch = "arm", target_endian = "little")), any(target_os = "android", target_os = "linux")))'.dependencies]
 libc = { version = "0.2.172", default-features = false }
 
@@ -249,4 +251,4 @@ default-members = [
 ]
 
 [patch.crates-io]
-untrusted = { path="/ssw/projects/pandora/UPSTREAM/untrusted/worktree/constant-eq" }
+untrusted = { path="/ssw/projects/pandora/UPSTREAM/worktrees/constant-eq" }
