@@ -90,7 +90,8 @@
     )),
     allow(dead_code, unused_imports, unused_macros)
 )]
-#![no_std]
+#![cfg_attr(not(test), no_std)]
+
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
